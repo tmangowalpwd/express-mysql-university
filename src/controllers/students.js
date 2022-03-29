@@ -77,6 +77,36 @@ const studentControllers = {
     } catch (err) {
       next();
     }
+  },
+  addStudentToClub: async (req, res, next) => {
+    try {
+      const { studentId } = req.params;
+      const { club_id } = req.body;
+
+      const findStudentSQL = `
+        SELECT * FROM club_student WHERE student_id = ? AND club_id = ?
+        `
+      const replacements = [studentId, club_id]
+
+      const findStudents = await query(findStudentSQL, replacements)
+
+      if (findStudents.length) {
+        return res.status(400).json({
+          message: "Student has already joined the club"
+        })
+      }
+
+      const sql = `INSERT INTO club_student VALUES (0, ?, ?)`
+
+      await query(sql, replacements)
+
+      return res.status(201).json({
+        message: `Added student to club`
+      })
+
+    } catch (err) {
+      next()
+    }
   }
 }
 
