@@ -19,13 +19,15 @@ const {
   studentRoutes,
   lecturerRoutes,
   classRoutes,
-  facultyRoutes
+  facultyRoutes,
+  clubRoutes
 } = require("./routes")
 
 app.use("/students", studentRoutes)
 app.use("/lecturers", lecturerRoutes)
 app.use("/classes", classRoutes)
 app.use("/faculties", facultyRoutes)
+app.use("/clubs", clubRoutes)
 
 app.use((req, res) => {
   return res.status(500).json({
