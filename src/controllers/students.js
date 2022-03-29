@@ -37,7 +37,7 @@ const studentControllers = {
     try {
       const { id } = req.params
 
-      const sql = `DELETE FROM student WHERE id = ?`
+      const sql = `DELETE FROM students WHERE id = ?`
 
       await query(sql, [id])
 

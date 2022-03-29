@@ -15,10 +15,15 @@ app.get("/", (req, res) => {
   res.send("University API")
 })
 
-const { studentRoutes, lecturerRoutes } = require("./routes")
+const {
+  studentRoutes,
+  lecturerRoutes,
+  classRoutes
+} = require("./routes")
 
 app.use("/students", studentRoutes)
 app.use("/lecturers", lecturerRoutes)
+app.use("/classes", classRoutes)
 
 app.use((req, res) => {
   return res.status(500).json({

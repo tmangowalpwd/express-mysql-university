@@ -37,7 +37,7 @@ const lecturerControllers = {
     try {
       const { id } = req.params
 
-      const sql = `DELETE FROM lecturer WHERE id = ?`
+      const sql = `DELETE FROM lecturers WHERE id = ?`
 
       await query(sql, [id])
 
