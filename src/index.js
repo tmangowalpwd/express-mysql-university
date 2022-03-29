@@ -12,6 +12,10 @@ app.get("/", (req, res) => {
   res.send("University API")
 })
 
+const { studentRoutes } = require("./routes")
+
+app.use("/students", studentRoutes)
+
 app.listen(PORT, () => {
   console.log("Listening in port", PORT)
 })
