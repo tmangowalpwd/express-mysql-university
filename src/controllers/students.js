@@ -48,6 +48,36 @@ const studentControllers = {
       next()
     }
   },
+  addStudentToClass: async (req, res, next) => {
+    try {
+      const { studentId } = req.params;
+      const { class_id } = req.body;
+
+      const findStudentSQL = `
+        SELECT * FROM class_student WHERE student_id = ? AND class_id = ?
+        `
+      const replacements = [studentId, class_id]
+
+      const findStudents = await query(findStudentSQL, replacements)
+
+      if (findStudents.length) {
+        return res.status(400).json({
+          message: "Student has already joined the class"
+        })
+      }
+
+      const sql = `INSERT INTO class_student VALUES (0, ?, ?)`
+
+      await query(sql, replacements)
+
+      return res.status(201).json({
+        message: `Added student to class`
+      })
+
+    } catch (err) {
+      next();
+    }
+  }
 }
 
 module.exports = studentControllers
