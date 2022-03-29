@@ -4,7 +4,7 @@ const router = require("express").Router();
 
 router.get("/", studentControllers.getStudents)
 router.post("/", studentControllers.createStudent)
-router.patch("/", studentControllers.editStudentById)
-router.delete("/", studentControllers.deleteStudentById)
+router.patch("/:id", studentControllers.editStudentById)
+router.delete("/:id", studentControllers.deleteStudentById)
 
 module.exports = router

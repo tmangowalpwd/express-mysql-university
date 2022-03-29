@@ -6,6 +6,9 @@ dotenv.config()
 
 const app = express()
 
+app.use(cors())
+app.use(express.json())
+
 const PORT = process.env.PORT
 
 app.get("/", (req, res) => {
@@ -15,6 +18,12 @@ app.get("/", (req, res) => {
 const { studentRoutes } = require("./routes")
 
 app.use("/students", studentRoutes)
+
+app.use((req, res) => {
+  return res.status(500).json({
+    message: "Server error"
+  })
+})
 
 app.listen(PORT, () => {
   console.log("Listening in port", PORT)
