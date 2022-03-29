@@ -107,6 +107,57 @@ const studentControllers = {
     } catch (err) {
       next()
     }
+  },
+  removeStudentFromClub: async (req, res, next) => {
+    try {
+      const { studentId, clubId } = req.params;
+
+      // Check if student is the club leader
+      const isClubLeaderSQL = `SELECT * FROM clubs WHERE leader_id = ? AND id = ?`
+
+      const isClubLeaderResult = await query(isClubLeaderSQL, [studentId, clubId])
+
+      // If student is the club leader, remove them from the leader position
+      if (isClubLeaderResult.length) {
+        await query(
+          "UPDATE clubs SET leader_id = null WHERE id = ?",
+          [isClubLeaderResult[0].id]
+        )
+      }
+
+      // ================= Safe Mode OFF ==========================
+      // Delete student by club_id and student_id (safe_mode OFF)
+      // const deleteStudentFromClubSQL = `
+      //   DELETE FROM club_student 
+      //   WHERE club_id = ? AND student_id = ?;
+      // `
+      // await query(deleteStudentFromClubSQL, [clubId, studentId])
+      // ================= Safe Mode OFF ==========================
+
+
+
+      // ================= Safe Mode ON ==========================
+      // Find the relationship record of student and club
+      // We do this to get the id of the record
+      const findStudentClub = `
+        SELECT * FROM club_student WHERE club_id = ? AND student_id = ?
+      `
+      const findStudentClubResult = await query(findStudentClub, [clubId, studentId])
+
+      await query(
+        `DELETE FROM club_student WHERE id = ?`,
+        [findStudentClubResult[0].id]
+      )
+      // ================= Safe Mode ON ==========================
+
+      return res.status(200).json({
+        message: "Removed student from club"
+      })
+
+    } catch (err) {
+      console.log(err)
+      next()
+    }
   }
 }
 

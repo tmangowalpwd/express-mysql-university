@@ -10,4 +10,6 @@ router.delete("/:id", studentControllers.deleteStudentById)
 router.post("/:studentId/class", studentControllers.addStudentToClass)
 router.post("/:studentId/club", studentControllers.addStudentToClub)
 
+router.delete("/:studentId/club/:clubId", studentControllers.removeStudentFromClub)
+
 module.exports = router
