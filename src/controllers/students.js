@@ -55,7 +55,7 @@ const studentControllers = {
 
       const findStudentSQL = `
         SELECT * FROM class_student WHERE student_id = ? AND class_id = ?
-        `
+      `
       const replacements = [studentId, class_id]
 
       const findStudents = await query(findStudentSQL, replacements)
@@ -121,7 +121,7 @@ const studentControllers = {
       if (isClubLeaderResult.length) {
         await query(
           "UPDATE clubs SET leader_id = null WHERE id = ?",
-          [isClubLeaderResult[0].id]
+          [clubId]
         )
       }
 
